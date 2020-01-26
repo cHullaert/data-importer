@@ -1,4 +1,4 @@
-package com.covergroup.application.arguments
+package com.darwinit.application.arguments
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

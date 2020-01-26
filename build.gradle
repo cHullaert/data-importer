@@ -38,13 +38,14 @@ dependencies {
     // database connectors
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
+    compile group: 'net.sf.ucanaccess', name: 'ucanaccess', version: '5.0.0'
 
     testImplementation 'org.awaitility:awaitility:3.1.2'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 application {
-    mainClassName = 'com.covergroup.datascience.data.DataApplication'
+    mainClassName = 'com.darwinit.datascience.data.DataApplication'
 }
 
 bootRun {

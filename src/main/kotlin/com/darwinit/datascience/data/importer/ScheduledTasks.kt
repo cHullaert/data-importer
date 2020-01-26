@@ -1,12 +1,11 @@
-package com.covergroup.datascience.data.importer
+package com.darwinit.datascience.data.importer
 
-import com.covergroup.datascience.data.exporter.ExportDispatcher
-import com.covergroup.datascience.data.importer.database.DatabaseConnection
-import com.covergroup.datascience.data.importer.database.Dataset
+import com.darwinit.datascience.data.exporter.ExportDispatcher
+import com.darwinit.datascience.data.importer.database.DatabaseConnection
+import com.darwinit.datascience.data.importer.database.Dataset
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.ApplicationContext
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
@@ -24,10 +23,10 @@ class ScheduledTasks {
 
     @Scheduled(fixedRate = 10000)
     fun doQuery() {
-        databaseConnection.query(importerArgumentContainer.sql.query, {
-            it : Sequence<Dataset> -> it.forEachIndexed {
-            index, dataset -> exportDispatcher.dispatch(index, dataset)
-        }})
+        databaseConnection.query(importerArgumentContainer.sql.query) {
+                it : Sequence<Dataset> -> it.forEachIndexed {
+                index, dataset -> exportDispatcher.dispatch(index, dataset)
+        }}
     }
 
     companion object {

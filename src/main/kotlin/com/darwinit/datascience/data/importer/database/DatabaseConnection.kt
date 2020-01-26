@@ -1,6 +1,6 @@
-package com.covergroup.datascience.data.importer.database
+package com.darwinit.datascience.data.importer.database
 
-import com.covergroup.datascience.data.importer.ImporterArgumentContainer
+import com.darwinit.datascience.data.importer.ImporterArgumentContainer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.sql.*
@@ -22,16 +22,7 @@ class DatabaseConnection {
         connectionProps["user"] = this.importerArgumentContainer.user.name
         connectionProps["password"] = this.importerArgumentContainer.user.password
 
-        Class.forName(this.importerArgumentContainer.sql.driver).newInstance()
-
-        DriverManager.getConnection(createUrl(), connectionProps)
-    }
-
-    private fun createUrl(): String {
-        return "jdbc:${this.importerArgumentContainer.sql.type}"+
-                    "://${this.importerArgumentContainer.server.hostname}:"+
-                    "${this.importerArgumentContainer.server.port}/"+
-                    this.importerArgumentContainer.sql.database
+        DriverManager.getConnection(this.importerArgumentContainer.sql.jdbc, connectionProps)
     }
 
     private fun datasetExtractor(rs: ResultSet) =

@@ -1,4 +1,4 @@
-package com.covergroup.application.arguments
+package com.darwinit.application.arguments
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
