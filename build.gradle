@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+plugins {
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
+}
+
+group 'com.covergroup.datascience.importer'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.2.4.RELEASE'
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.61'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
+    implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.4'
+    compile group: "com.github.nwillc", name: "funkjdbc", version: '0.8.0'
+
+    // database connectors
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.18'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
+
+    testImplementation 'org.awaitility:awaitility:3.1.2'
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+application {
+    mainClassName = 'com.covergroup.datascience.data.DataApplication'
+}
+
+bootRun {
+    if (project.hasProperty('args')) {
+        args project.args.split(',')
+    }
+}
+
+jar {
+    from configurations.runtime
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'com.covergroup.datascience.data.importer.DataImporterApplication'
+        )
+    }
+}
+
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
